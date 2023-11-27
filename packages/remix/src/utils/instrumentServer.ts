@@ -1,19 +1,23 @@
 /* eslint-disable max-lines */
-import { getActiveTransaction, hasTracingEnabled, runWithAsyncContext } from '@sentry/core';
-import type { Hub } from '@sentry/node';
-import { captureException, getCurrentHub } from '@sentry/node';
+import type { Hub } from '@sentry/core';
+import {
+  captureException,
+  getActiveTransaction,
+  getCurrentHub,
+  hasTracingEnabled,
+  runWithAsyncContext,
+} from '@sentry/core';
 import type { Transaction, TransactionSource, WrappedFunction } from '@sentry/types';
 import {
   addExceptionMechanism,
   dynamicSamplingContextToSentryBaggageHeader,
   fill,
-  isNodeEnv,
   loadModule,
   logger,
   tracingContextFromHeaders,
 } from '@sentry/utils';
 
-import { getFutureFlagsServer, getRemixVersionFromBuild } from './futureFlags';
+import { getFutureFlagsServer, getRemixVersionFromBuild, isBrowser } from './futureFlags';
 import {
   extractData,
   getRequestMatch,
@@ -243,7 +247,7 @@ function getTraceAndBaggage(): { sentryTrace?: string; sentryBaggage?: string } 
   const transaction = getActiveTransaction();
   const currentScope = getCurrentHub().getScope();
 
-  if (isNodeEnv() && hasTracingEnabled()) {
+  if (!isBrowser() && hasTracingEnabled()) {
     const span = currentScope.getSpan();
 
     if (span && transaction) {
