@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import type { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
+import type { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, Routes } from '@angular/router';
 import type { Hub } from '@sentry/types';
 
 import { TraceClassDecorator, TraceDirective, TraceMethodDecorator, instrumentAngularRouting } from '../src';
@@ -95,10 +95,8 @@ describe('Angular Tracing', () => {
         },
         '/users/:id/',
       ],
-    ])('%s', (_, routeSnapshot, expectedParams) => {
-      expect(getParameterizedRouteFromSnapshot(routeSnapshot as unknown as ActivatedRouteSnapshot)).toEqual(
-        expectedParams,
-      );
+    ])('%s', (_: unknown, routeSnapshot: ActivatedRouteSnapshot, expectedParams: unknown) => {
+      expect(getParameterizedRouteFromSnapshot(routeSnapshot)).toEqual(expectedParams);
     });
   });
 
@@ -312,7 +310,7 @@ describe('Angular Tracing', () => {
             },
           ],
         ],
-      ])('%s and sets the source to `route`', async (_, url, result, routes) => {
+      ])('%s and sets the source to `route`', async (_: unknown, url: string, result: string, routes: Routes) => {
         const customStartTransaction = jest.fn(defaultStartTransaction);
         const env = await TestEnv.setup({
           customStartTransaction,
