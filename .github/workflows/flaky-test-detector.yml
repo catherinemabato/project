@@ -54,13 +54,13 @@ jobs:
         run: echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
       - name: Get Playwright version
         id: playwright-version
-        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> $GITHUB_OUTPUT
+        run: echo "version=$(node -p "require('playwright/package.json').version")" >> $GITHUB_OUTPUT
       - uses: actions/cache@v3
         name: Check if Playwright browser is cached
         id: playwright-cache
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-Playwright-${{steps.playwright-version.outputs.version}}
+          key: ${{ runner.os }}-Playwright-${{steps.playwright-version.outputs.version}}-latest
       - name: Install Playwright browser if not cached
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
