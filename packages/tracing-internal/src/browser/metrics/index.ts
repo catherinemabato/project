@@ -37,6 +37,7 @@ let _performanceCursor: number = 0;
 let _measurements: Measurements = {};
 let _lcpEntry: LargestContentfulPaint | undefined;
 let _clsEntry: LayoutShift | undefined;
+let _fidEntry: PerformanceEventTiming | undefined;
 
 /**
  * Start tracking web vitals.
@@ -168,6 +169,7 @@ function _trackFID(): () => void {
     DEBUG_BUILD && logger.log('[Measurements] Adding FID');
     _measurements['fid'] = { value: metric.value, unit: 'millisecond' };
     _measurements['mark.fid'] = { value: timeOrigin + startTime, unit: 'second' };
+     _fidEntry = entry as PerformanceEventTiming;
   });
 }
 
@@ -517,6 +519,12 @@ function _tagMetricInfo(transaction: Transaction): void {
       // eslint-disable-next-line deprecation/deprecation
       transaction.setTag(`cls.source.${index + 1}`, htmlTreeAsString(source.node)),
     );
+  }
+
+
+  // Capture FID properties
+  if (_fidEntry && _fidEntry.target) {
+    transaction.setTag('fid.element', htmlTreeAsString(_fidEntry.target));
   }
 }
 
