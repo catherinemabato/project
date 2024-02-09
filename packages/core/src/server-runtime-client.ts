@@ -61,7 +61,10 @@ export class ServerRuntimeClient<
    * @inheritDoc
    */
   public eventFromException(exception: unknown, hint?: EventHint): PromiseLike<Event> {
-    return resolvedSyncPromise(eventFromUnknownInput(getClient(), this._options.stackParser, exception, hint));
+    const event = eventFromUnknownInput(getClient(), this._options.stackParser, exception, hint);
+    event.level = 'error';
+
+    return resolvedSyncPromise(event);
   }
 
   /**
