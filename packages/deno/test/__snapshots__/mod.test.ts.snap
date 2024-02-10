@@ -136,6 +136,7 @@ snapshot[`captureException 1`] = `
     ],
   },
   platform: "javascript",
+  level: "error",
   sdk: {
     integrations: [
       "InboundFilters",
