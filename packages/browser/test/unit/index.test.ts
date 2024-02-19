@@ -202,6 +202,7 @@ describe('SentryBrowser', () => {
       await flush(2000);
 
       const event = beforeSend.mock.calls[0][0];
+      expect(event.level).toBe('error');
       expect(event.exception).toBeDefined();
       expect(event.exception.values[0]).toBeDefined();
       expect(event.exception.values[0].type).toBe('Error');
@@ -212,6 +213,7 @@ describe('SentryBrowser', () => {
     it('should capture a message', done => {
       const options = getDefaultBrowserClientOptions({
         beforeSend: (event: Event): Event | null => {
+          expect(event.level).toBe('info');
           expect(event.message).toBe('test');
           expect(event.exception).toBeUndefined();
           done();
