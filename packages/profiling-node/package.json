@@ -19,9 +19,7 @@
   },
   "typesVersions": {
     "<4.9": {
-      "lib/types/index.d.ts": [
-        "lib/types-ts3.8/index.d.ts"
-      ]
+      "lib/types/index.d.ts": ["lib/types-ts3.8/index.d.ts"]
     }
   },
   "bin": {
@@ -95,10 +93,7 @@
   "nx": {
     "targets": {
       "build:transpile": {
-        "dependsOn": [
-          "^build:transpile",
-          "^build:types"
-        ]
+        "dependsOn": ["^build:transpile", "^build:types"]
       }
     }
   }
