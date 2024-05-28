@@ -1001,6 +1001,7 @@ jobs:
             'create-remix-app-v2',
             'create-remix-app-express',
             'create-remix-app-express-vite-dev',
+            'create-remix-app-fastify-vite',
             'debug-id-sourcemaps',
             'node-express-esm-loader',
             'node-express-esm-preload',

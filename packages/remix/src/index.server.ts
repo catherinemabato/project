@@ -120,6 +120,7 @@ export { withSentry } from './client/performance';
 export { captureRemixErrorBoundaryError } from './client/errors';
 export { browserTracingIntegration } from './client/browserTracingIntegration';
 export { wrapExpressCreateRequestHandler } from './utils/serverAdapters/express';
+export { wrapFastifyCreateRequestHandler } from './utils/serverAdapters/fastify';
 
 export type { SentryMetaArgs } from './utils/types';
 
