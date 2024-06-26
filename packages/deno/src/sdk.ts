@@ -5,6 +5,7 @@ import {
   functionToStringIntegration,
   inboundFiltersIntegration,
   linkedErrorsIntegration,
+  requestDataIntegration,
 } from '@sentry/core';
 import { getIntegrationsToSetup, initAndBind } from '@sentry/core';
 import type { Client, Integration, Options, StackParser } from '@sentry/types';
@@ -14,6 +15,7 @@ import { DenoClient } from './client';
 import { breadcrumbsIntegration } from './integrations/breadcrumbs';
 import { denoContextIntegration } from './integrations/context';
 import { contextLinesIntegration } from './integrations/contextlines';
+import { denoServerIntegration } from './integrations/denoserver';
 import { globalHandlersIntegration } from './integrations/globalhandlers';
 import { normalizePathsIntegration } from './integrations/normalizepaths';
 import { makeFetchTransport } from './transports';
@@ -27,6 +29,7 @@ export function getDefaultIntegrations(_options: Options): Integration[] {
     inboundFiltersIntegration(),
     functionToStringIntegration(),
     linkedErrorsIntegration(),
+    requestDataIntegration(),
     dedupeIntegration(),
     // Deno Specific
     breadcrumbsIntegration(),
@@ -34,6 +37,7 @@ export function getDefaultIntegrations(_options: Options): Integration[] {
     contextLinesIntegration(),
     normalizePathsIntegration(),
     globalHandlersIntegration(),
+    denoServerIntegration(),
   ];
 }
 
