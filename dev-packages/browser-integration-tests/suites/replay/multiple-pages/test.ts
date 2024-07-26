@@ -13,6 +13,7 @@ import {
   expectedNavigationPerformanceSpan,
   expectedNavigationPushPerformanceSpan,
   expectedReloadPerformanceSpan,
+  expectedTTFBPerformanceSpan,
   getExpectedReplayEvent,
 } from '../../../utils/replayEventTemplates';
 import {
@@ -80,13 +81,14 @@ sentryTest(
     const collectedPerformanceSpans = [...recording0.performanceSpans, ...recording1.performanceSpans];
     const collectedBreadcrumbs = [...recording0.breadcrumbs, ...recording1.breadcrumbs];
 
-    expect(collectedPerformanceSpans.length).toEqual(8);
+    expect(collectedPerformanceSpans.length).toEqual(9);
     expect(collectedPerformanceSpans).toEqual(
       expect.arrayContaining([
         expectedNavigationPerformanceSpan,
         expectedLCPPerformanceSpan,
         expectedCLSPerformanceSpan,
         expectedFIDPerformanceSpan,
+        expectedTTFBPerformanceSpan,
         expectedFPPerformanceSpan,
         expectedFCPPerformanceSpan,
         expectedMemoryPerformanceSpan, // two memory spans - once per flush
@@ -120,12 +122,13 @@ sentryTest(
     const collectedPerformanceSpansAfterReload = [...recording2.performanceSpans, ...recording3.performanceSpans];
     const collectedBreadcrumbsAdterReload = [...recording2.breadcrumbs, ...recording3.breadcrumbs];
 
-    expect(collectedPerformanceSpansAfterReload.length).toEqual(8);
+    expect(collectedPerformanceSpansAfterReload.length).toEqual(9);
     expect(collectedPerformanceSpansAfterReload).toEqual(
       expect.arrayContaining([
         expectedReloadPerformanceSpan,
         expectedLCPPerformanceSpan,
         expectedCLSPerformanceSpan,
+        expectedTTFBPerformanceSpan,
         expectedFIDPerformanceSpan,
         expectedFPPerformanceSpan,
         expectedFCPPerformanceSpan,
@@ -195,6 +198,7 @@ sentryTest(
         expectedNavigationPerformanceSpan,
         expectedLCPPerformanceSpan,
         expectedCLSPerformanceSpan,
+        expectedTTFBPerformanceSpan,
         expectedFIDPerformanceSpan,
         expectedFPPerformanceSpan,
         expectedFCPPerformanceSpan,
@@ -312,12 +316,13 @@ sentryTest(
     ];
     const collectedBreadcrumbsAfterIndexNavigation = [...recording8.breadcrumbs, ...recording9.breadcrumbs];
 
-    expect(collectedPerformanceSpansAfterIndexNavigation.length).toEqual(8);
+    expect(collectedPerformanceSpansAfterIndexNavigation.length).toEqual(9);
     expect(collectedPerformanceSpansAfterIndexNavigation).toEqual(
       expect.arrayContaining([
         expectedNavigationPerformanceSpan,
         expectedLCPPerformanceSpan,
         expectedCLSPerformanceSpan,
+        expectedTTFBPerformanceSpan,
         expectedFIDPerformanceSpan,
         expectedFPPerformanceSpan,
         expectedFCPPerformanceSpan,
