@@ -180,7 +180,7 @@ export interface FeedbackCallbacks {
   /**
    * Callback when form is closed and not submitted
    */
-  onFormClose?: () => void;
+  onFormClose?: (args: { reason: 'dialog-dismissed' | 'form-cancelled' }) => void;
 
   /**
    * Callback when feedback is successfully submitted
