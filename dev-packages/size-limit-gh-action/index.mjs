@@ -3,7 +3,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as artifact from '@actions/artifact';
+import { DefaultArtifactClient } from '@actions/artifact';
 import * as core from '@actions/core';
 import { exec } from '@actions/exec';
 import { context, getOctokit } from '@actions/github';
@@ -175,7 +175,7 @@ async function run() {
 
     const octokit = getOctokit(githubToken);
     const limit = new SizeLimit();
-    const artifactClient = artifact.create();
+    const artifactClient = new DefaultArtifactClient();
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const resultsFilePath = path.resolve(__dirname, RESULTS_FILE);
 
