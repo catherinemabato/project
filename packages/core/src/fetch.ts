@@ -3,6 +3,7 @@ import {
   BAGGAGE_HEADER_NAME,
   dynamicSamplingContextToSentryBaggageHeader,
   generateSentryTraceHeader,
+  getGraphQLRequestPayload,
   isInstanceOf,
   parseUrl,
 } from '@sentry/utils';
@@ -65,12 +66,14 @@ export function instrumentFetchRequest(
   const scope = getCurrentScope();
   const client = getClient();
 
-  const { method, url } = handlerData.fetchData;
+  const { method, url, body } = handlerData.fetchData;
 
   const fullUrl = getFullURL(url);
   const host = fullUrl ? parseUrl(fullUrl).host : undefined;
 
   const hasParent = !!getActiveSpan();
+
+  const graphqlRequest = getGraphQLRequestPayload(body as string);
 
   const span =
     shouldCreateSpanResult && hasParent
@@ -84,6 +87,7 @@ export function instrumentFetchRequest(
             'server.address': host,
             [SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN]: spanOrigin,
             [SEMANTIC_ATTRIBUTE_SENTRY_OP]: 'http.client',
+            body: graphqlRequest,
           },
         })
       : new SentryNonRecordingSpan();

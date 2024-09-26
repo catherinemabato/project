@@ -292,6 +292,12 @@ export interface Client<O extends ClientOptions = ClientOptions> {
   on(hook: 'startNavigationSpan', callback: (options: StartSpanOptions) => void): () => void;
 
   /**
+   * A hook for GraphQL client integration to enhance a span and breadcrumbs with request data.
+   * @returns A function that, when executed, removes the registered callback.
+   */
+  on(hook: 'outgoingRequestSpanStart', callback: (span: Span) => void): () => void;
+
+  /**
    * A hook that is called when the client is flushing
    * @returns A function that, when executed, removes the registered callback.
    */
@@ -386,6 +392,11 @@ export interface Client<O extends ClientOptions = ClientOptions> {
    * Emit a hook event for browser tracing integrations to trigger a span for a navigation.
    */
   emit(hook: 'startNavigationSpan', options: StartSpanOptions): void;
+
+  /**
+   * Emit a hook event for GraphQL client integration to enhance a span and breadcrumbs with request data.
+   */
+  emit(hook: 'outgoingRequestSpanStart', span: Span): void;
 
   /**
    * Emit a hook event for client flush

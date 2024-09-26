@@ -48,12 +48,13 @@ function instrumentFetch(onFetchResolved?: (response: Response) => void, skipNat
 
   fill(GLOBAL_OBJ, 'fetch', function (originalFetch: () => void): () => void {
     return function (...args: any[]): void {
-      const { method, url } = parseFetchArgs(args);
+      const { method, url, body } = parseFetchArgs(args);
       const handlerData: HandlerDataFetch = {
         args,
         fetchData: {
           method,
           url,
+          body,
         },
         startTimestamp: timestampInSeconds() * 1000,
       };
@@ -191,12 +192,12 @@ function getUrlFromResource(resource: FetchResource): string {
 }
 
 /**
- * Parses the fetch arguments to find the used Http method and the url of the request.
+ * Parses the fetch arguments to find the used Http method, the url, and the payload of the request.
  * Exported for tests only.
  */
-export function parseFetchArgs(fetchArgs: unknown[]): { method: string; url: string } {
+export function parseFetchArgs(fetchArgs: unknown[]): { method: string; url: string; body: string | null } {
   if (fetchArgs.length === 0) {
-    return { method: 'GET', url: '' };
+    return { method: 'GET', url: '', body: null };
   }
 
   if (fetchArgs.length === 2) {
@@ -205,6 +206,7 @@ export function parseFetchArgs(fetchArgs: unknown[]): { method: string; url: str
     return {
       url: getUrlFromResource(url),
       method: hasProp(options, 'method') ? String(options.method).toUpperCase() : 'GET',
+      body: hasProp(options, 'body') ? String(options.body) : null,
     };
   }
 
@@ -212,5 +214,6 @@ export function parseFetchArgs(fetchArgs: unknown[]): { method: string; url: str
   return {
     url: getUrlFromResource(arg as FetchResource),
     method: hasProp(arg, 'method') ? String(arg.method).toUpperCase() : 'GET',
+    body: hasProp(arg, 'body') ? String(arg.body) : null,
   };
 }
