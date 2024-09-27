@@ -85,7 +85,7 @@ type BundleSizeOptimizationOptions = {
 };
 
 /**
- *  Build options for the Sentry module. These options are used during build-time by the Sentry SDK.
+ *  Build options for the Sentry plugin. These options are used during build-time by the Sentry SDK.
  */
 export type SentrySolidStartPluginOptions = {
   /**
@@ -125,4 +125,24 @@ export type SentrySolidStartPluginOptions = {
    * Enabling this will give you, for example logs about source maps.
    */
   debug?: boolean;
+
+  /**
+   * The path to your `instrument.server.ts|js` file.
+   * e.g. `./src/instrument.server.ts`
+   *
+   * Defaults to: `./src/instrument.server.ts`
+   */
+  instrumentation?: string;
+
+  /**
+   * Enabling basic server tracing can be used for environments where modifying the node option `--import` is not possible.
+   * However, enabling this option only supports limited tracing instrumentation. Only http traces will be collected (but no database-specific traces etc.).
+   *
+   * If this option is `true`, the Sentry SDK will import the instrumentation.server.ts|js file at the top of the server entry file to load the SDK on the server.
+   *
+   * **DO NOT** enable this option if you've already added the node option `--import` in your node start script. This would initialize Sentry twice on the server-side and leads to unexpected issues.
+   *
+   * @default false
+   */
+  experimental_basicServerTracing?: boolean;
 };
