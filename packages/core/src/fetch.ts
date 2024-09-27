@@ -73,8 +73,6 @@ export function instrumentFetchRequest(
 
   const hasParent = !!getActiveSpan();
 
-  const graphqlRequest = getGraphQLRequestPayload(body as string);
-
   const span =
     shouldCreateSpanResult && hasParent
       ? startInactiveSpan({
@@ -87,7 +85,6 @@ export function instrumentFetchRequest(
             'server.address': host,
             [SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN]: spanOrigin,
             [SEMANTIC_ATTRIBUTE_SENTRY_OP]: 'http.client',
-            body: graphqlRequest,
           },
         })
       : new SentryNonRecordingSpan();
@@ -114,6 +111,10 @@ export function instrumentFetchRequest(
       // which means that the headers will be generated from the scope and the sampling decision is deferred
       hasTracingEnabled() && hasParent ? span : undefined,
     );
+  }
+
+  if (client) {
+    client.emit('outgoingRequestSpanStart', span, { body: getGraphQLRequestPayload(body as string) });
   }
 
   return span;

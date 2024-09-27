@@ -463,7 +463,7 @@ export abstract class BaseClient<O extends ClientOptions> implements Client<O> {
   public on(hook: 'startNavigationSpan', callback: (options: StartSpanOptions) => void): () => void;
 
   /** @inheritdoc */
-  public on(hook: 'outgoingRequestSpanStart', callback: (span: Span) => void): () => void;
+  public on(hook: 'outgoingRequestSpanStart', callback: (span: Span, { body }: { body: unknown }) => void): () => void;
 
   public on(hook: 'flush', callback: () => void): () => void;
 
@@ -544,7 +544,7 @@ export abstract class BaseClient<O extends ClientOptions> implements Client<O> {
   public emit(hook: 'startNavigationSpan', options: StartSpanOptions): void;
 
   /** @inheritdoc */
-  public emit(hook: 'outgoingRequestSpanStart', span: Span): void;
+  public emit(hook: 'outgoingRequestSpanStart', span: Span, { body }: { body: unknown }): void;
 
   /** @inheritdoc */
   public emit(hook: 'flush'): void;
